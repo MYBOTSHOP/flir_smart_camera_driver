@@ -1,0 +1,9 @@
+string label
+bool display
+string product # readOnly: true
+string serial # readOnly: true
+string version # readOnly: true
+Lens lens # readOnly: true
+---
+int16 status_code
+string message

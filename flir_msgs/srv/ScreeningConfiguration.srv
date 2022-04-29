@@ -1,0 +1,6 @@
+string screeningMode
+string palette
+string imageMode
+---
+int16 status_code
+string message

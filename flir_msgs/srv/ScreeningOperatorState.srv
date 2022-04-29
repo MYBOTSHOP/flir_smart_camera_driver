@@ -1,0 +1,6 @@
+float32 sampleCountdown # readOnly: true, float32 of seconds before next sample need to be captured
+float32[] samples # [Temperatures (in K) of each sample]
+float32 sampleCounter # float32 of samples needed to capture
+---
+int16 status_code
+string message

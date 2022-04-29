@@ -1,0 +1,6 @@
+bool triggered # Set this to true to trigger NUC
+bool active
+int16 interval # minimum: 0 Time between NUC in seconds
+---
+int16 status_code
+string message

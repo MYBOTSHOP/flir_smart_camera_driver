@@ -1,0 +1,6 @@
+int16 distance
+int16 position
+Point autofocus
+---
+int16 status_code
+string message

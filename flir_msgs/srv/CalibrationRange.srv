@@ -1,0 +1,6 @@
+string id # example: 0
+float32 min # example: 273.15, Min temperetature calculated in this range (in *K)
+float32 max # example: 303.15, Max temperetature calculated in this range (in *K)
+---
+int16 status_code
+string message

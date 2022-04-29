@@ -1,0 +1,9 @@
+string id # readOnly: true
+bool active
+string label
+bool triggered # readOnly: true
+bool value
+AlarmActions actions
+---
+int16 status_code
+string message

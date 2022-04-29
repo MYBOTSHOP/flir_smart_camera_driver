@@ -1,0 +1,4 @@
+int16 pan # "Send 'pan' command to the server. To move to the left, value must be negative, right - positive. Internally system will reset value to 0 after 2s therefore in order to maintain value, request must be send in intervals. Suggested interval is 1s. Suggested values are -20 and 20. Warning! This endpoint might be subject of change in a future"
+---
+int16 status_code
+string message

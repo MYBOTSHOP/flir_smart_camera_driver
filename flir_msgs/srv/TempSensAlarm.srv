@@ -1,0 +1,12 @@
+string id # readOnly: true
+string active
+string label
+bool triggered # readOnly: true
+float32 duration
+float32 value
+string condition # Enum: [ ABOVE, BELOW ]
+float32 hysteresis
+AlarmActions actions
+---
+int16 status_code
+string message

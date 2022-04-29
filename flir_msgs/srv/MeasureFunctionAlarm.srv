@@ -1,0 +1,15 @@
+string id # readOnly: true
+bool active
+string label
+bool triggered # readOnly: true
+int16 duration
+float32 value
+string condition # Enum: [ MATCH, ABOVE, BELOW ]
+float32 hysteresis
+string measureFuncType # Enum: [ spot, mbox, mline, mpolyline, reftemp, diff ]
+string measureFuncId
+string measureFuncRes # Enum: [ valueT, maxT, minT, avgT, isoCoverage ]
+AlarmActions actions	
+---
+int16 status_code
+string message

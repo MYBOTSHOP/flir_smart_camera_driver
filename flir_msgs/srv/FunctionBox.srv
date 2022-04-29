@@ -1,0 +1,36 @@
+float32 distance
+bool distanceActive
+float32 emissivity # minimum: 0, maximum: 1, example: 0.997
+bool emissivityActive
+float32 ambient # minimum: 0, example: 293.15
+bool ambientActive
+bool showOnTrigger
+bool active
+string label
+int16 x # minimum: 0, example: 10
+int16 y
+int16 width
+int16 height
+bool calcMaxTemp
+bool calcMaxPos
+bool calcMinTemp
+bool calcMinPos
+bool calcAvg
+bool calcIso
+bool calcFreeFormMask
+string freeFormMask
+float32 maxX # readOnly: true
+float32 maxY # readOnly: true
+float32 maxT # readOnly: true
+float32 maxValid # readOnly: true
+float32 minX # readOnly: true
+float32 minY # readOnly: true
+float32 minT # readOnly: true
+float32 minValid # readOnly: true
+float32 avgT # readOnly: true
+float32 avgValid # readOnly: true
+float32 isoT # readOnly: true
+float32 isoValid # readOnly: true
+---
+int16 status_code
+string message

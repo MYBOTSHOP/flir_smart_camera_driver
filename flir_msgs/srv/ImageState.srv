@@ -1,0 +1,6 @@
+string stream # Enum: [ LIVE, FREEZE, SNAPSHOT ]
+bool flipHorizontal
+bool flipVertical
+---
+int16 status_code
+string message

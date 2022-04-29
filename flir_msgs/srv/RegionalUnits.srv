@@ -1,0 +1,5 @@
+string distance # Enum: [ feet, meter ]
+string temperature # Enum: [ celsius, fahrenheit ]
+---
+int16 status_code
+string message

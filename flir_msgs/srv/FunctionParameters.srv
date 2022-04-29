@@ -1,0 +1,10 @@
+float32 distance
+bool distanceActive
+float32 emissivity # minimum: 0, maximum: 1, example: 0.997
+bool emissivityActive
+float32 ambient # minimum: 0, example: 293.15
+bool ambientActive
+bool showOnTrigger
+---
+int16 status_code
+string message

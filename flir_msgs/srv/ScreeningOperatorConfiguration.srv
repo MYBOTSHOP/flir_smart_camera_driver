@@ -1,0 +1,8 @@
+int16 sampleInterval # minimum: 0, Interval between sample capturing
+int16 offset # minimum: 0, Alarm threshold margin
+string silhouette # Silhouette presented on stream,  Enum: [ none, full, smaller ]
+ScreeningOperatorAction actions
+int16 samplesLimit # readOnly: true, Number of required captured samples
+---
+int16 status_code
+string message

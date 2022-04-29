@@ -1,0 +1,5 @@
+string id # readOnly: true
+string state # Enum: [ notUsed, high, low ]
+---
+int16 status_code
+string message

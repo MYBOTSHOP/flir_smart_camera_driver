@@ -1,0 +1,4 @@
+string[] screeningMode
+---
+int16 status_code
+string message

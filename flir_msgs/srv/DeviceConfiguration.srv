@@ -1,0 +1,7 @@
+string palette # example: bw
+string range # example: 1
+string mode # example: IR
+string colorizationMode # example: linear
+---
+int16 status_code
+string message
