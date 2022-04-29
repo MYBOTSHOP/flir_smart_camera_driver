@@ -4,7 +4,7 @@
   <version>0.0.1</version>
   <description>The flir_smart_camera_driver package</description>
   <maintainer email="tahir.mehmood@mybotshop.de">Tahir Mehmood</maintainer>
-  <license>BSD</license>
+  <license>MIT</license>
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>rospy</build_depend>
   <build_export_depend>rospy</build_export_depend>
