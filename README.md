@@ -71,7 +71,7 @@ roslaunch flir_smart_camera_driver driver.launch
     
 #### 3.1.2 Published Topics
 
- - ~alarms/active([flir_msgs/ActiveAlarms](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/msg/ActiveAlarms.msg)): Information on any active alarms.
+ - ~alarms/active([flir_msgs/ActiveAlarms](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/msg/ActiveAlarms.msg)) Information on any active alarms.
 
  - ~alarms/triggered([flir_msgs/TriggeredAlarms](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/msg/TriggeredAlarms.msg))
 
@@ -87,118 +87,118 @@ As the driver is based on REST api and the device offer quite some fucntionaliti
 
 2. Set attributes: All setattributes services start with `set` and need some data to set on the device.
 
- - ~get/alarms/digin([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/alarms/digin([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/alarms/digin/id([flir_msgs/IdRetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/IdRetrieveData.srv)):
+ - ~get/alarms/digin/id([flir_msgs/IdRetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/IdRetrieveData.srv))
  
- - ~get/alarms/measure_function([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/alarms/measure_function([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/alarms/measure_function/id([flir_msgs/IdRetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/IdRetrieveData.srv)):
+ - ~get/alarms/measure_function/id([flir_msgs/IdRetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/IdRetrieveData.srv))
  
- - ~get/alarms/temperature_sensor([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/alarms/temperature_sensor([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/alarms/temperature_sensor/id([flir_msgs/IdRetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/IdRetrieveData.srv)):
+ - ~get/alarms/temperature_sensor/id([flir_msgs/IdRetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/IdRetrieveData.srv))
  
- - ~get/device/configuration([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/device/configuration([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/device/details([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/device/details([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/device/focus([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/device/focus([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/device/io/outputs([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/device/io/outputs([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/device/io/outputs/id([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/device/io/outputs/id([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/device/limits([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/device/limits([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/device/nuc([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/device/nuc([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/image/state([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/image/state([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/measurements/boxes([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/measurements/boxes([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/measurements/boxes/id([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/measurements/boxes/id([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/measurements/deltas([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/measurements/deltas([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/measurements/deltas/id([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/measurements/deltas/id([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/measurements/lines([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/measurements/lines([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/measurements/lines/id([flir_msgs/IdRetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/IdRetrieveData.srv)):
+ - ~get/measurements/lines/id([flir_msgs/IdRetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/IdRetrieveData.srv))
  
- - ~get/measurements/polylines([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/measurements/polylines([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/measurements/polylines/id([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/measurements/polylines/id([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/measurements/reftemps([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/measurements/reftemps([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/measurements/reftemps/id([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/measurements/reftemps/id([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/measurements/spots([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/measurements/spots([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/measurements/spots/id([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/measurements/spots/id([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/regional/limits([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/regional/limits([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/regional/time([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/regional/time([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/regional/units([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/regional/units([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/screening/configuration([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/screening/configuration([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/screening/limits([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/screening/limits([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/screening/operator/configuration([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/screening/operator/configuration([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
  
- - ~get/screening/operator/state([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~get/screening/operator/state([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
 
- - ~set/alarms/digin/id([flir_msgs/DiginAlarm](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/DiginAlarm.srv)):
+ - ~set/alarms/digin/id([flir_msgs/DiginAlarm](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/DiginAlarm.srv))
 
- - ~set/alarms/measure_function/id([flir_msgs/MeasureFunctionAlarm](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/MeasureFunctionAlarm.srv)): 
+ - ~set/alarms/measure_function/id([flir_msgs/MeasureFunctionAlarm](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/MeasureFunctionAlarm.srv)) 
  
- - ~set/alarms/temperature_sensor/id([flir_msgs/TempSensAlarm](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/TempSensAlarm.srv)):
+ - ~set/alarms/temperature_sensor/id([flir_msgs/TempSensAlarm](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/TempSensAlarm.srv))
 
- - ~set/device/configuration([flir_msgs/DeviceConfiguration](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/DeviceConfiguration.srv)):
+ - ~set/device/configuration([flir_msgs/DeviceConfiguration](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/DeviceConfiguration.srv))
 
- - ~set/device/details([flir_msgs/DeviceDetails](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/DeviceDetails.srv)):
+ - ~set/device/details([flir_msgs/DeviceDetails](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/DeviceDetails.srv))
 
- - ~set/device/focus([flir_msgs/DeviceFocusUpdate](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/DeviceFocusUpdate.srv)):
+ - ~set/device/focus([flir_msgs/DeviceFocusUpdate](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/DeviceFocusUpdate.srv))
 
- - ~set/device/focus_auto([flir_msgs/DeviceFocusAutoUpdate](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/DeviceFocusAutoUpdate.srv)):
+ - ~set/device/focus_auto([flir_msgs/DeviceFocusAutoUpdate](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/DeviceFocusAutoUpdate.srv))
 
- - ~set/device/io/outputs/id([flir_msgs/DigitalOutput](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/DigitalOutput.srv)):
+ - ~set/device/io/outputs/id([flir_msgs/DigitalOutput](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/DigitalOutput.srv))
 
- - ~set/device/nuc([flir_msgs/DeviceNuc](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/DeviceNuc.srv)):
+ - ~set/device/nuc([flir_msgs/DeviceNuc](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/DeviceNuc.srv))
 
- - ~set/device/pts/pan([flir_msgs/DevicePan](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/DevicePan.srv)):
+ - ~set/device/pts/pan([flir_msgs/DevicePan](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/DevicePan.srv))
 
- - ~set/device/pts/stop([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~set/device/pts/stop([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
 
- - ~set/device/pts/tilt([flir_msgs/DeviceTilt](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/DeviceTilt.srv)):
+ - ~set/device/pts/tilt([flir_msgs/DeviceTilt](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/DeviceTilt.srv))
 
- - ~set/image/state([flir_msgs/ImageState](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/ImageState.srv)):
+ - ~set/image/state([flir_msgs/ImageState](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/ImageState.srv))
 
- - ~set/measurements/boxes/id([flir_msgs/FunctionBox](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/FunctionBox.srv)):
+ - ~set/measurements/boxes/id([flir_msgs/FunctionBox](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/FunctionBox.srv))
 
- - ~set/measurements/deltas/id([flir_msgs/FunctionDelta](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/FunctionDelta.srv)):
+ - ~set/measurements/deltas/id([flir_msgs/FunctionDelta](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/FunctionDelta.srv))
 
- - ~set/measurements/lines/id([flir_msgs/FunctionLine](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/FunctionLine.srv)):
+ - ~set/measurements/lines/id([flir_msgs/FunctionLine](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/FunctionLine.srv))
 
- - ~set/measurements/polylines/id([flir_msgs/FunctionPolyline](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/FunctionPolyline.srv)):
+ - ~set/measurements/polylines/id([flir_msgs/FunctionPolyline](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/FunctionPolyline.srv))
 
- - ~set/measurements/reftemps/id([flir_msgs/FunctionRefTemp](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/FunctionRefTemp.srv)):
+ - ~set/measurements/reftemps/id([flir_msgs/FunctionRefTemp](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/FunctionRefTemp.srv))
 
- - ~set/measurements/spots/id([flir_msgs/FunctionSpot](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/FunctionSpot.srv)):
+ - ~set/measurements/spots/id([flir_msgs/FunctionSpot](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/FunctionSpot.srv))
 
- - ~set/regional/time([flir_msgs/RegionalTime](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RegionalTime.srv)):
+ - ~set/regional/time([flir_msgs/RegionalTime](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RegionalTime.srv))
 
- - ~set/regional/units([flir_msgs/RegionalUnits](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RegionalUnits.srv)):
+ - ~set/regional/units([flir_msgs/RegionalUnits](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RegionalUnits.srv))
 
- - ~set/screening/configuration([flir_msgs/ScreeningConfiguration](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/ScreeningConfiguration.srv)):
+ - ~set/screening/configuration([flir_msgs/ScreeningConfiguration](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/ScreeningConfiguration.srv))
 
- - ~set/screening/operator/capture_sample([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~set/screening/operator/capture_sample([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
 
- - ~set/screening/operator/configuration([flir_msgs/ScreeningOperatorConfiguration](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/ScreeningOperatorConfiguration.srv)):
+ - ~set/screening/operator/configuration([flir_msgs/ScreeningOperatorConfiguration](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/ScreeningOperatorConfiguration.srv))
 
- - ~set/screening/operator/reset_samples([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv)):
+ - ~set/screening/operator/reset_samples([flir_msgs/RetrieveData](https://github.com/MYBOTSHOP/flir_smart_camera_driver/blob/main/flir_msgs/srv/RetrieveData.srv))
