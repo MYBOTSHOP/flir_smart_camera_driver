@@ -1,19 +1,4 @@
-# flir_smart_camera_driver
 # Package Summary
-
-flir_smart_camera_driver
-
-- Maintainer status: maintained
-
-- Maintainer: Tahir Mehmood <tahir DOT mehmood AT mybotshop DOT de>
-
-- Author: Tahir Mehmood <tahir DOT mehmood AT mybotshop DOT de>
-
-- License: BSD
-
-- Bug / feature tracker: https://github.com/driver/issues
-
-- Source: git https://github.com/driver.git (branch: kinetic-devel)
 
 ![camera](media/camera.png)
 
