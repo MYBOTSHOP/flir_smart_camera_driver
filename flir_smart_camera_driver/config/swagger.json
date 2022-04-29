@@ -1,0 +1,2576 @@
+{
+    "openapi": "3.0.3",
+    "tags": [
+        {
+            "name": "device"
+        },
+        {
+            "name": "image"
+        },
+        {
+            "name": "measurements"
+        },
+        {
+            "name": "regional"
+        },
+        {
+            "name": "alarms"
+        }
+    ],
+    "info": {
+        "title": "FLIR CamWeb",
+        "description": "Thermal camera steering service",
+        "version": "0.2.0"
+    },
+    "servers": [
+        {
+            "url": "/api"
+        }
+    ],
+    "components": {
+        "schemas": {
+            "ScreeningConfiguration": {
+                "type": "object",
+                "properties": {
+                    "screeningMode":{
+                        "type": "string"
+                    },
+                    "palette": {
+                        "type": "string"
+                    },
+                    "imageMode":{
+                        "type": "string"
+                    }
+                }
+            },
+            "ScreeningConfigurationLimits": {
+                "type": "object",
+                "properties": {
+                    "screeningMode": {
+                        "type": "array",
+                        "items":{
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "ScreeningOperatorConfiguration": {
+                "type": "object",
+                "properties": {
+                    "sampleInterval": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Interval between sample capturing"
+                    },
+                    "offset": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Alarm threshold margin"
+                    },
+                    "silhouette": {
+                        "type": "string",
+                        "enum": ["none", "full", "smaller"],
+                        "description": "Silhouette presented on stream"
+                    },
+                    "actions": {
+                        "type": "object",
+                        "properties": {
+                            "disableNuc": {
+                                "type": "boolean"
+                            },
+                            "enableOverlay": {
+                                "type": "boolean"
+                            },
+                            "mailImage": {
+                                "type": "boolean"
+                            },
+                            "mailMovie": {
+                                "type": "boolean"
+                            },
+                            "mailResult": {
+                                "type": "boolean"
+                            },
+                            "pulseTime": {
+                                "type": "number"
+                            },
+                            "sendImage": {
+                                "type": "boolean"
+                            },
+                            "sendMovie": {
+                                "type": "boolean"
+                            },
+                            "output": {
+                                "type": "number"
+                            },
+                            "storeImage": {
+                                "type": "boolean"
+                            },
+                            "storeMovie": {
+                                "type": "boolean"
+                            },
+                            "audioBeep": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "samplesLimit": {
+                        "type": "number",
+                        "readOnly": true,
+                        "description": "Number of required captured samples"
+                    }
+                }
+            },
+            "ScreeningOperatorState": {
+                "type": "object",
+                "properties": {
+                    "sampleCountdown": {
+                        "type": "number",
+                        "readOnly": true,
+                        "description": "Number of seconds before next sample need to be captured"
+                    },
+                    "samples": {
+                        "type": "array",
+                        "description": "Temperatures (in K) of each sample",
+                        "items": {
+                            "type": "number"
+                        }
+                    },
+                    "sampleCounter": {
+                        "type":"number",
+                        "description": "Number of samples needed to capture"
+                    }
+                }
+            },
+            "AlarmActions": {
+                "type": "object",
+                "properties": {
+                    "disableNuc": {
+                        "type": "boolean"
+                    },
+                    "enableOverlay": {
+                        "type": "boolean"
+                    },
+                    "mailImage": {
+                        "type": "boolean"
+                    },
+                    "mailMovie": {
+                        "type": "boolean"
+                    },
+                    "mailResult": {
+                        "type": "boolean"
+                    },
+                    "pulseTime": {
+                        "type": "boolean"
+                    },
+                    "sendImage": {
+                        "type": "boolean"
+                    },
+                    "sendMovie": {
+                        "type": "boolean"
+                    },
+                    "output": {
+                        "type": "integer"
+                    },
+                    "storeImage": {
+                        "type": "boolean"
+                    },
+                    "storeMovie": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "DiginAlarm": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type":"string",
+                        "readOnly": true
+                    },
+                    "active": {
+                        "type":"boolean"
+                    },
+                    "label": {
+                        "type":"string"
+                    },
+                    "triggered": {
+                        "type":"boolean",
+                        "readOnly": true
+                    },
+                    "value": {
+                        "type":"boolean"
+                    },
+                    "actions": {
+                        "$ref": "#/components/schemas/AlarmActions"
+                    }
+                }
+            },
+            "TempSensAlarm": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "active": {
+                        "type": "string"
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "triggered": {
+                        "type": "boolean",
+                        "readOnly": true
+                    },
+                    "duration": {
+                        "type": "number"
+                    },
+                    "value": {
+                        "type": "number"
+                    },
+                    "condition": {
+                        "type": "string",
+                        "enum": [
+                            "ABOVE",
+                            "BELOW"
+                        ]
+                    },
+                    "hysteresis": {
+                        "type": "number"
+                    },
+                    "actions": {
+                        "$ref": "#/components/schemas/AlarmActions"
+                    }
+                }
+            },
+            "MeasureFunctionAlarm": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "active": {
+                        "type": "boolean"
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "triggered": {
+                        "type": "boolean",
+                        "readOnly": true
+                    },
+                    "duration": {
+                        "type": "integer"
+                    },
+                    "value": {
+                        "type": "number"
+                    },
+                    "condition": {
+                        "type": "string",
+                        "enum": [
+                            "MATCH",
+                            "ABOVE",
+                            "BELOW"
+                        ]
+                    },
+                    "hysteresis": {
+                        "type": "number"
+                    },
+                    "measureFuncType": {
+                        "type": "string",
+                        "enum": [
+                            "spot",
+                            "mbox",
+                            "mline",
+                            "mpolyline",
+                            "reftemp",
+                            "diff"
+                        ]
+                    },
+                    "measureFuncId": {
+                        "type": "string"
+                    },
+                    "measureFuncRes": {
+                        "type": "string",
+                        "enum": [
+                            "valueT",
+                            "maxT",
+                            "minT",
+                            "avgT",
+                            "isoCoverage"
+                        ]
+                    },
+                    "actions": {
+                        "$ref": "#/components/schemas/AlarmActions"
+                    }
+                }
+            },
+            "RegionalUnits": {
+                "type": "object",
+                "properties": {
+                    "distance": {
+                        "type": "string",
+                        "enum": [
+                            "feet",
+                            "meter"
+                        ]
+                    },
+                    "temperature": {
+                        "type": "string",
+                        "enum": [
+                            "celsius",
+                            "fahrenheit"
+                        ]
+                    }
+                }
+            },
+            "RegionalTime": {
+                "type": "object",
+                "properties": {
+                    "datetime": {
+                        "type": "string"
+                    },
+                    "timezone": {
+                        "type": "string"
+                    },
+                    "timeserver": {
+                        "type": "string"
+                    }
+                }
+            },
+            "RegionalLimits": {
+                "type": "object",
+                "properties": {
+                    "temperature": {
+                        "type": "object",
+                        "example": {
+                            "celsius": "Celsius [*C]",
+                            "fahrenheit": "Fahrenheit [*F]"
+                        },
+                        "additionalProperties": true,
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "distance": {
+                        "type": "object",
+                        "additionalProperties": true,
+                        "example": {
+                            "meter": "Meter",
+                            "feet": "Feet"
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "timezone": {
+                        "type": "object",
+                        "additionalProperties": true,
+                        "example": {
+                            "Europe\\Warsaw": "Europe\\Warsaw"
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "DeviceDetails": {
+                "type": "object",
+                "properties": {
+                    "label": {
+                        "type": "string"
+                    },
+                    "display": {
+                        "type": "boolean"
+                    },
+                    "product": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "serial": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "version": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "lens": {
+                        "type": "object",
+                        "readOnly": true,
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "readOnly": true
+                            },
+                            "product": {
+                                "type": "string",
+                                "readOnly": true
+                            },
+                            "serial": {
+                                "type": "string",
+                                "readOnly": true
+                            }
+                        }
+                    }
+                }
+            },
+            "ImageState": {
+                "type": "object",
+                "properties": {
+                    "stream": {
+                        "type": "string",
+                        "enum": [
+                            "LIVE",
+                            "FREEZE",
+                            "SNAPSHOT"
+                        ]
+                    },
+                    "flipHorizontal": {
+                        "type": "boolean"
+                    },
+                    "flipVertical": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "DeviceConfiguration": {
+                "type": "object",
+                "properties": {
+                    "palette": {
+                        "type": "string",
+                        "example": "bw"
+                    },
+                    "range": {
+                        "type": "string",
+                        "example": 1
+                    },
+                    "mode": {
+                        "type": "string",
+                        "example": "IR"
+                    },
+                    "colorizationMode": {
+                        "type": "string",
+                        "example": "linear"
+                    }
+                }
+            },
+            "FunctionParameters": {
+                "type": "object",
+                "properties": {
+                    "distance": {
+                        "type": "number"
+                    },
+                    "distanceActive": {
+                        "type": "boolean"
+                    },
+                    "emissivity": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "example": 0.997
+                    },
+                    "emissivityActive": {
+                        "type": "boolean"
+                    },
+                    "ambient": {
+                        "minimum": 0,
+                        "example": 293.15,
+                        "type": "number"
+                    },
+                    "ambientActive": {
+                        "type": "boolean"
+                    },
+                    "showOnTrigger": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "FunctionBox": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/FunctionParameters"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "active": {
+                                "type": "boolean"
+                            },
+                            "label": {
+                                "type": "string"
+                            },
+                            "x": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "example": 10
+                            },
+                            "y": {
+                                "type": "integer"
+                            },
+                            "width": {
+                                "type": "integer"
+                            },
+                            "height": {
+                                "type": "integer"
+                            },
+                            "calcMaxTemp": {
+                                "type": "boolean"
+                            },
+                            "calcMaxPos": {
+                                "type": "boolean"
+                            },
+                            "calcMinTemp": {
+                                "type": "boolean"
+                            },
+                            "calcMinPos": {
+                                "type": "boolean"
+                            },
+                            "calcAvg": {
+                                "type": "boolean"
+                            },
+                            "calcIso": {
+                                "type": "boolean"
+                            },
+                            "calcFreeFormMask": {
+                                "type": "boolean"
+                            },
+                            "freeFormMask": {
+                                "type": "string"
+                            },
+                            "maxX": {
+                                "readOnly": true,
+                                "type": "number"
+                            },
+                            "maxY": {
+                                "readOnly": true,
+                                "type": "number"
+                            },
+                            "maxT": {
+                                "readOnly": true,
+                                "type": "number"
+                            },
+                            "maxValid": {
+                                "readOnly": true,
+                                "type": "number"
+                            },
+                            "minX": {
+                                "readOnly": true,
+                                "type": "number"
+                            },
+                            "minY": {
+                                "readOnly": true,
+                                "type": "number"
+                            },
+                            "minT": {
+                                "readOnly": true,
+                                "type": "number"
+                            },
+                            "minValid": {
+                                "readOnly": true,
+                                "type": "number"
+                            },
+                            "avgT": {
+                                "readOnly": true,
+                                "type": "number"
+                            },
+                            "avgValid": {
+                                "readOnly": true,
+                                "type": "number"
+                            },
+                            "isoT": {
+                                "readOnly": true,
+                                "type": "number"
+                            },
+                            "isoValid": {
+                                "readOnly": true,
+                                "type": "number"
+                            }
+                        }
+                    }
+                ]
+            },
+            "FunctionSpot": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/FunctionParameters"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "active": {
+                                "type": "boolean"
+                            },
+                            "label": {
+                                "type": "string"
+                            },
+                            "x": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "example": 10
+                            },
+                            "y": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "example": 10
+                            },
+                            "id": {
+                                "type": "string",
+                                "example": "1",
+                                "readOnly": true
+                            },
+                            "valueT": {
+                                "type": "number",
+                                "minimum": 0,
+                                "readOnly": true
+                            },
+                            "valueValid": {
+                                "readOnly": true,
+                                "type": "string",
+                                "enum": [
+                                    "=",
+                                    "<",
+                                    ">",
+                                    "U"
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+            "FunctionRefTemp": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "active": {
+                                "type": "boolean"
+                            },
+                            "label": {
+                                "type": "string"
+                            },
+                            "id": {
+                                "type": "string",
+                                "example": "1",
+                                "readOnly": true
+                            },
+                            "refT": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "valueT": {
+                                "type": "number",
+                                "minimum": 0,
+                                "readOnly": true
+                            },
+                            "valueValid": {
+                                "readOnly": true,
+                                "type": "string",
+                                "enum": [
+                                    "=",
+                                    "<",
+                                    ">",
+                                    "U"
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+            "FunctionDelta": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "active": {
+                                "type": "boolean"
+                            },
+                            "label": {
+                                "type": "string"
+                            },
+                            "id": {
+                                "type": "string",
+                                "example": "1",
+                                "readOnly": true
+                            },
+                            "type0": {
+                                "type": "string",
+                                "example": "mbox",
+                                "enum": [
+                                    "spot",
+                                    "mbox",
+                                    "mline",
+                                    "mpolyline",
+                                    "reftemp",
+                                    "diff"
+                                ]
+                            },
+                            "id0": {
+                                "type": "string",
+                                "example": "1"
+                            },
+                            "res0": {
+                                "type": "string",
+                                "example": "max",
+                                "enum": [
+                                    "value",
+                                    "max",
+                                    "min",
+                                    "avg"
+                                ]
+                            },
+                            "type1": {
+                                "type": "string",
+                                "example": "reftemp",
+                                "enum": [
+                                    "spot",
+                                    "mbox",
+                                    "mline",
+                                    "mpolyline",
+                                    "reftemp",
+                                    "diff"
+                                ]
+                            },
+                            "id1": {
+                                "type": "string",
+                                "example": "1"
+                            },
+                            "res1": {
+                                "type": "string",
+                                "example": "value",
+                                "enum": [
+                                    "value",
+                                    "max",
+                                    "min",
+                                    "avg"
+                                ]
+                            },
+                            "valueT": {
+                                "type": "number",
+                                "minimum": 0,
+                                "readOnly": true
+                            },
+                            "valueValid": {
+                                "readOnly": true,
+                                "type": "string",
+                                "enum": [
+                                    "=",
+                                    "<",
+                                    ">",
+                                    "U"
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+            "FunctionLine": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/FunctionParameters"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "active": {
+                                "type": "boolean"
+                            },
+                            "label": {
+                                "type": "string"
+                            },
+                            "x1": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "example": 10
+                            },
+                            "y1": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "example": 10
+                            },
+                            "x2": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "example": 10
+                            },
+                            "y2": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "example": 10
+                            },
+                            "minX": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "example": 10
+                            },
+                            "minY": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "example": 10
+                            },
+                            "maxX": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "example": 10
+                            },
+                            "maxY": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "example": 10
+                            },
+                            "id": {
+                                "type": "string",
+                                "example": "1",
+                                "readOnly": true
+                            },
+                            "avgT": {
+                                "type": "number",
+                                "minimum": 0,
+                                "readOnly": true
+                            },
+                            "avgValid": {
+                                "readOnly": true,
+                                "type": "string",
+                                "enum": [
+                                    "=",
+                                    "<",
+                                    ">",
+                                    "U"
+                                ]
+                            },
+                            "minT": {
+                                "type": "number",
+                                "minimum": 0,
+                                "readOnly": true
+                            },
+                            "minValid": {
+                                "readOnly": true,
+                                "type": "string",
+                                "enum": [
+                                    "=",
+                                    "<",
+                                    ">",
+                                    "U"
+                                ]
+                            },
+                            "maxT": {
+                                "type": "number",
+                                "minimum": 0,
+                                "readOnly": true
+                            },
+                            "maxValid": {
+                                "readOnly": true,
+                                "type": "string",
+                                "enum": [
+                                    "=",
+                                    "<",
+                                    ">",
+                                    "U"
+                                ]
+                            },
+                            "tempValid": {
+                                "readOnly": true,
+                                "type": "string",
+                                "enum": [
+                                    "=",
+                                    "<",
+                                    ">",
+                                    "U"
+                                ]
+                            },
+                            "tempArray": {
+                                "readOnly": true,
+                                "type": "array",
+                                "items": {
+                                    "type": "number"
+                                }
+                            },
+                            "calcMaxTemp": {
+                                "type": "boolean"
+                            },
+                            "calcMaxPos": {
+                                "type": "boolean"
+                            },
+                            "calcMinTemp": {
+                                "type": "boolean"
+                            },
+                            "calcMinPos": {
+                                "type": "boolean"
+                            },
+                            "calcAvg": {
+                                "type": "boolean"
+                            },
+                            "calcCursor": {
+                                "type": "boolean"
+                            },
+                            "calcTempArray": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                ]
+            },
+            "FunctionPolyline": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/FunctionParameters"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "active": {
+                                "type": "boolean"
+                            },
+                            "label": {
+                                "type": "string"
+                            },
+                            "points": {
+                              "type": "array",
+                              "items": {
+                                "type":"array",
+                                "items": {
+                                  "type": "integer"
+                                }
+                              },
+                              "example": [[10, 20], [30, 40]]
+                            },
+                            "minX": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "example": 10
+                            },
+                            "minY": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "example": 10
+                            },
+                            "maxX": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "example": 10
+                            },
+                            "maxY": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "example": 10
+                            },
+                            "id": {
+                                "type": "string",
+                                "example": "1",
+                                "readOnly": true
+                            },
+                            "avgT": {
+                                "type": "number",
+                                "minimum": 0,
+                                "readOnly": true
+                            },
+                            "avgValid": {
+                                "readOnly": true,
+                                "type": "string",
+                                "enum": [
+                                    "=",
+                                    "<",
+                                    ">",
+                                    "U"
+                                ]
+                            },
+                            "minT": {
+                                "type": "number",
+                                "minimum": 0,
+                                "readOnly": true
+                            },
+                            "minValid": {
+                                "readOnly": true,
+                                "type": "string",
+                                "enum": [
+                                    "=",
+                                    "<",
+                                    ">",
+                                    "U"
+                                ]
+                            },
+                            "maxT": {
+                                "type": "number",
+                                "minimum": 0,
+                                "readOnly": true
+                            },
+                            "maxValid": {
+                                "readOnly": true,
+                                "type": "string",
+                                "enum": [
+                                    "=",
+                                    "<",
+                                    ">",
+                                    "U"
+                                ]
+                            },
+                            "tempValid": {
+                                "readOnly": true,
+                                "type": "string",
+                                "enum": [
+                                    "=",
+                                    "<",
+                                    ">",
+                                    "U"
+                                ]
+                            },
+                            "tempArray": {
+                                "readOnly": true,
+                                "type": "array",
+                                "items": {
+                                    "type": "number"
+                                }
+                            },
+                            "calcMaxTemp": {
+                                "type": "boolean"
+                            },
+                            "calcMaxPos": {
+                                "type": "boolean"
+                            },
+                            "calcMinTemp": {
+                                "type": "boolean"
+                            },
+                            "calcMinPos": {
+                                "type": "boolean"
+                            },
+                            "calcAvg": {
+                                "type": "boolean"
+                            },
+                            "calcCursor": {
+                                "type": "boolean"
+                            },
+                            "calcTempArray": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                ]
+            },
+            "CalibrationRange": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "0"
+                    },
+                    "min": {
+                        "type": "number",
+                        "example": 273.15,
+                        "description": "Min temperetature calculated in this range (in *K)"
+                    },
+                    "max": {
+                        "type": "number",
+                        "example": 303.15,
+                        "description": "Max temperetature calculated in this range (in *K)"
+                    }
+                }
+            },
+            "DeviceLimits": {
+                "type": "object",
+                "properties": {
+                    "palette": {
+                        "type": "object",
+                        "additionalProperties": true,
+                        "example": {
+                            "bw": "gray",
+                            "arctic": "Arctic"
+                        }
+                    },
+                    "geometry": {
+                        "type": "object",
+                        "properties": {
+                            "width": {
+                                "type": "integer",
+                                "example": 120
+                            },
+                            "height": {
+                                "type": "integer",
+                                "example": 80
+                            }
+                        }
+                    },
+                    "range": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/CalibrationRange"
+                        }
+                    },
+                    "colorizationMode": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "linear",
+                                "histogram"
+                            ],
+                            "uniqueItems": true
+                        }
+                    },
+                    "mode": {
+                        "type": "object",
+                        "additionalProperties": true,
+                        "example": {
+                            "IR": "Thermal",
+                            "FUSION": "MSX"
+                        }
+                    }
+                }
+            },
+            "DeviceNuc": {
+                "type": "object",
+                "properties": {
+                    "triggered": {
+                        "type": "boolean",
+                        "description": "Set this to true to trigger NUC"
+                    },
+                    "active": {
+                        "type": "boolean"
+                    },
+                    "interval": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Time between NUC in seconds"
+                    }
+                }
+            },
+            "DeviceFocusUpdate": {
+                "oneOf": [{
+                    "type": "object",
+                    "properties": {
+                        "autofocus": {
+                            "oneOf": [
+                                {"type": "boolean"},
+                                {"type": "object", "properties": {
+                                    "x1": {
+                                        "type": "integer"
+                                    },
+                                    "y1": {
+                                        "type": "integer"
+                                    },
+                                    "x2": {
+                                        "type": "integer"
+                                    },
+                                    "y2": {
+                                        "type": "integer"
+                                    }
+                                }}
+                            ]
+                        }
+                    }
+                }, {
+                    "type": "object",
+                    "properties": {
+                        "distance": {
+                            "type": "integer"
+                        }
+                    }
+                }, {
+                    "type": "object",
+                    "properties": {
+                    "position": {
+                        "type": "integer"
+                    }
+                    }
+                }]
+            },
+            "DeviceFocusRead": {
+                "type": "object",
+                "properties": {
+                    "autofocus": {
+                        "type": "object", "properties": {
+                            "x1": {
+                                "type": "integer"
+                            },
+                            "y1": {
+                                "type": "integer"
+                            },
+                            "x2": {
+                                "type": "integer"
+                            },
+                            "y2": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "distance": {
+                        "type": "integer"
+                    },
+                    "position": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "DigitalOutput": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "state": {
+                        "type": "string",
+                        "enum": [
+                            "notUsed", "high", "low"
+                        ]
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "x-api-key"
+            }
+        }
+    },
+    "security": [
+        {
+            "ApiKeyAuth": []
+        }
+    ],
+    "paths": {
+        "/measurements/spots": {
+            "get": {
+                "tags": [
+                    "measurements"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Read all spots",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/FunctionSpot"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/measurements/spots/{id}": {
+            "get": {
+                "tags": [
+                    "measurements"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Read single spot with given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FunctionSpot"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "measurements"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FunctionSpot"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Empty response in case of success"
+                    }
+                }
+            }
+        },
+        "/measurements/reftemps": {
+            "get": {
+                "tags": [
+                    "measurements"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Read all reference temperature",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/FunctionRefTemp"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/measurements/reftemps/{id}": {
+            "get": {
+                "tags": [
+                    "measurements"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Read single reftemp with given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FunctionRefTemp"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "measurements"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FunctionRefTemp"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Empty response in case of success"
+                    }
+                }
+            }
+        },
+        "/measurements/deltas": {
+            "get": {
+                "tags": [
+                    "measurements"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Read all delta temperatures",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/FunctionDelta"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/measurements/deltas/{id}": {
+            "get": {
+                "tags": [
+                    "measurements"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Read single delta with given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FunctionDelta"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "measurements"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FunctionDelta"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Empty response in case of success"
+                    }
+                }
+            }
+        },
+        "/measurements/boxes": {
+            "get": {
+                "tags": [
+                    "measurements"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Read all boxes",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/FunctionBox"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/measurements/boxes/{id}": {
+            "get": {
+                "tags": [
+                    "measurements"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Read single box with given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FunctionBox"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "measurements"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FunctionBox"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Empty response in case of success"
+                    }
+                }
+            }
+        },
+        "/measurements/lines": {
+            "get": {
+                "tags": [
+                    "measurements"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Read all lines",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/FunctionLine"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/measurements/lines/{id}": {
+            "get": {
+                "tags": [
+                    "measurements"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Read single line with given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FunctionLine"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "measurements"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FunctionLine"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Empty response in case of success"
+                    }
+                }
+            }
+        },
+        "/measurements/polylines": {
+            "get": {
+                "tags": [
+                    "measurements"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Read all polylines",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/FunctionPolyline"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/measurements/polylines/{id}": {
+            "get": {
+                "tags": [
+                    "measurements"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Read single polyline with given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FunctionPolyline"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "measurements"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FunctionPolyline"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Empty response in case of success"
+                    }
+                }
+            }
+        },
+        "/alarms/digin": {
+            "get": {
+                "tags": [
+                    "alarms"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Read all digin alarms",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DiginAlarm"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alarms/digin/{id}": {
+            "get": {
+                "tags": [
+                    "alarms"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Read single digin alarm with given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DiginAlarm"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "alarms"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DiginAlarm"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Empty response in case of success"
+                    }
+                }
+            }
+        },
+        "/alarms/measure-function": {
+            "get": {
+                "tags": [
+                    "alarms"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Read all measure function alarms",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/MeasureFunctionAlarm"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alarms/measure-function/{id}": {
+            "get": {
+                "tags": [
+                    "alarms"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Read single measure function alarm with given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MeasureFunctionAlarm"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "alarms"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MeasureFunctionAlarm"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Empty response in case of success"
+                    }
+                }
+            }
+        },
+        "/alarms/temperature-sensor": {
+            "get": {
+                "tags": [
+                    "alarms"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Read all temperature sensor alarms",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TempSensAlarm"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alarms/temperature-sensor/{id}": {
+            "get": {
+                "tags": [
+                    "alarms"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Read single temperature sensor alarm with given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TempSensAlarm"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "alarms"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TempSensAlarm"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Empty response in case of success"
+                    }
+                }
+            }
+        },
+        "/device/details": {
+            "get": {
+                "tags": [
+                    "device"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Device configuration",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeviceDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "device"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DeviceDetails"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/device/configuration": {
+            "get": {
+                "tags": [
+                    "device"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Device configuration",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeviceConfiguration"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "device"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DeviceConfiguration"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/device/limits": {
+            "get": {
+                "tags": [
+                    "device"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "device limits",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeviceLimits"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/device/nuc": {
+            "get": {
+                "tags": [
+                    "device"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Non Uniform Correction details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeviceNuc"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "device"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DeviceNuc"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/device/focus": {
+            "get": {
+                "tags": [
+                    "device"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Non Uniform Correction details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeviceFocusRead"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "device"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DeviceFocusUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Device focus positions, distance and area after focus",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeviceFocusRead"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/device/io/outputs": {
+            "get": {
+                "tags": [
+                    "device"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Read all outputs",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DigitalOutput"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/device/io/outputs/{id}": {
+            "get": {
+                "tags": [
+                    "device"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Read digital output with given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DigitalOutput"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "device"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DigitalOutput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Empty response in case of success"
+                    }
+                }
+            }
+        },
+        "/device/pts/pan": {
+            "description": "Send 'pan' command to the server. To move to the left, value must be negative, right - positive. Internally system will reset value to 0 after 2s therefore in order to maintain value, request must be send in intervals. Suggested interval is 1s. Suggested values are -20 and 20. Warning! This endpoint might be subject of change in a future.",
+            "post": {
+                "tags": [
+                    "device",
+                    "pts"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "pan": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/device/pts/tilt": {
+            "description": "Send 'tilt' command to the server. To move to up, value must be negative, down - positive. Internally system will reset value to 0 after 2s therefore in order to maintain value, request must be send in intervals. Suggested interval is 1s. Suggested values are -20 and 20. Warning! This endpoint might be subject of change in a future.",
+            "post": {
+                "tags": [
+                    "device",
+                    "pts"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "tilt": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/device/pts/stop": {
+            "description": "Resets current pan and tilt values to 0. Warning! This endpoint might be subject of change in a future.",
+            "post": {
+                "tags": [
+                    "device",
+                    "pts"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/image/state": {
+            "get": {
+                "tags": [
+                    "image"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Image state",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ImageState"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "image"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ImageState"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/regional/units": {
+            "get": {
+                "tags": [
+                    "regional"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Regional units",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RegionalUnits"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "regional"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegionalUnits"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/regional/time": {
+            "get": {
+                "tags": [
+                    "regional"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Regional units",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RegionalTime"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "regional"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegionalTime"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/regional/limits": {
+            "get": {
+                "tags": [
+                    "regional"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Regional units",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RegionalLimits"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
+        "/screening/configuration": {
+            "get": {
+                "tags": [
+                    "screening"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Screening general configuration",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ScreeningConfiguration"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "screening"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ScreeningConfiguration"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/screening/limits": {
+            "get": {
+                "tags": [
+                    "screening"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Available options for screening general configuration",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ScreeningConfigurationLimits"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/screening/operator/configuration": {
+            "get": {
+                "tags": [
+                    "screening"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Screening operator mode configuration",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ScreeningOperatorConfiguration"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "screening"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ScreeningOperatorConfiguration"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/screening/operator/capture-sample": {
+            "post": {
+                "description": "Capture new sample",
+                "tags": [
+                    "screening"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/screening/operator/reset-samples": {
+            "post": {
+                "description": "Clear all samples",
+                "tags": [
+                    "screening"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/screening/operator/state": {
+            "get": {
+                "description": "Read current screening state",
+                "tags": [
+                    "screening"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Screening operator mode current state",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ScreeningOperatorState"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
