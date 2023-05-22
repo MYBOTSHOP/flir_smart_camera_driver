@@ -24,7 +24,7 @@ class RestInterfaceHandle(CameraUtils):
         self.active_alarms_pub = rospy.Publisher('alarms/active', ActiveAlarms, queue_size=10)
         self.triggered_alarms_pub = rospy.Publisher('alarms/triggered', TriggeredAlarms, queue_size=10)
 
-    def isAlive(self, n_replies=1, timeout=1):
+    def isAlive(self, n_replies=10, timeout=1):
         """Check if the camera is still alive or not
 
         Args:

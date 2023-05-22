@@ -37,19 +37,18 @@ class Driver(RestInterfaceHandle, RTSPCLIENT):
     def run(self):
         """ main function to run the driver """
 
-        self.createThread(self.isAlive)
-        duration = time() + 5
-        while time() < duration and not rospy.is_shutdown():
-            if self.is_alive:
-                break
-        if not self.is_alive:
-            rospy.logerr("Camera connection failed!")
-            rospy.logerr("Camera address is: {}".format(self.device_address))
-            return
+        # self.createThread(self.isAlive)
+        # duration = time() + 5
+        # while time() < duration and not rospy.is_shutdown():
+        #     if self.is_alive:
+        #         break
+        # if not self.is_alive:
+        #     rospy.logerr("Camera connection failed!")
+        #     rospy.logerr("Camera address is: {}".format(self.device_address))
+        #     return
         self.initRESTInterfaceHandle()
         self.initRTSPHandle()
         self.createThread(self.checkAlarmStatus)
-        self.createThread(self.detectHuman)
         [self.createThread(self.imageStream, stream) for stream in self.streams]
         rospy.spin()
 
