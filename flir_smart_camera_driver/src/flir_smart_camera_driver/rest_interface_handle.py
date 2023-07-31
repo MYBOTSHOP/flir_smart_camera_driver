@@ -1,30 +1,29 @@
 #!/usr/bin/env python3
+
 from numpy import uint16
-import rospy
-import subprocess
-import json
-from requests import get, post
+import rclpy
+
+from rclpy.node import Node
 from flir_msgs.srv import *
 from flir_msgs.msg import ActiveAlarms, TriggeredAlarms
 from functools import partial as bind
-from . utils import CameraUtils
-    
+from your_package.utils import CameraUtils  # Replace 'your_package' with the actual package name where utils is defined
 
-class RestInterfaceHandle(CameraUtils):
+class RestInterfaceHandle(CameraUtils, Node):
     """ REST interface handle for FLIR camera """
     
-    def __init__(self):        
-        super(RestInterfaceHandle, self).__init__()      
+    def __init__(self):
+        super().__init__()
         self.uri = '{}://{}/api'.format('http' if self.http else 'https', self.device_address)
         self.api_key = '?apiKey={}'.format(self.device_api_key)
-        self.is_alive = False      # To check if camera is still alive
+        self.is_alive = False      # To check if the camera is still alive
         self.ros_msg_dict = dict() # Logic handle for data conversion
         self.ros_msg_type = None   # Logic handle for data conversion
 
-        self.active_alarms_pub = rospy.Publisher('alarms/active', ActiveAlarms, queue_size=10)
-        self.triggered_alarms_pub = rospy.Publisher('alarms/triggered', TriggeredAlarms, queue_size=10)
+        self.active_alarms_pub = self.create_publisher(ActiveAlarms, 'alarms/active', 10)
+        self.triggered_alarms_pub = self.create_publisher(TriggeredAlarms, 'alarms/triggered', 10)
 
-    def isAlive(self, n_replies=10, timeout=1):
+    def is_alive(self, n_replies=10, timeout=1):
         """Check if the camera is still alive or not
 
         Args:
@@ -35,19 +34,20 @@ class RestInterfaceHandle(CameraUtils):
         Raises:
             None
         """
-        rospy.loginfo('Connecting to the camera at: {}'.format(self.device_address))
+        self.get_logger().info('Connecting to the camera at: {}'.format(self.device_address))
         init_success = False
-        while not rospy.is_shutdown():
+        while rclpy.ok():
             status, _ = subprocess.getstatusoutput('ping -c{} -w{} {}'.format(n_replies, timeout, self.device_address))
             if status != 0:
                 self.is_alive = False
                 if init_success:
-                    rospy.logerr('Camera connection lost!')
-                    rospy.logerr('Killing camera node.')
-                    rospy.signal_shutdown('camera connection lost!')
+                    self.get_logger().error('Camera connection lost!')
+                    self.get_logger().error('Killing camera node.')
+                    rclpy.shutdown()
             else:
                 init_success = True
                 self.is_alive = True
+
   
     def deserializeMessage(self, msg):
         """Returns any ROS message type and content

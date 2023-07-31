@@ -1,19 +1,32 @@
 <launch>
-	<arg name="viz" default="false"/>
-	<arg name="verbose" default="false"/> 
-	<arg name="ip" default="192.168.131.150"/> 
-	<node name="driver_node" pkg="flir_smart_camera_driver" type="driver_node" output="screen" ns="flir_camera">
-		<param name="is_http" type="bool" value="true" />
-		<param name="camera_ip" type="str" value="$(arg ip)" />
-		<param name="is_rgb_required" type="bool" value="true" />   <!-- In case rgb image is desired or not -->
-		<param name="verbose" type="bool" value="$(arg verbose)" /> <!-- If Set prints target URL, and json data for REST api requests -->
-		<rosparam param="visual_format">['avc', 'mpeg4']</rosparam> <!-- Available options: ['avc', 'mpeg4', 'mjpg'] -->
-		<rosparam param="ir_format">['avc']</rosparam>     <!-- Available options: ['avc', 'mpeg4', 'mjpg'] -->
-		<param name="overlay" type="bool" value="true" />  <!-- Either to have an overlay or not this can be usefull in case when different objects(lines, masks etc.) are set -->
-		<param name="camera_api_key" type="string" value="23b1beaac7463772e7845f7e381bd4b9bf00f2f48302a047" />
-		<param name="api_file_path"  type="string" value="$(find flir_smart_camera_driver)/config/swagger.json" />
-	</node>		
-	<group if="$(arg viz)">
-		<node type="rviz" name="rviz" pkg="rviz" args="-d $(find flir_smart_camera_driver)/rviz/rviz.rviz" />
-	</group>
+    <arg name="viz" default="false"/>
+    <arg name="verbose" default="false"/> 
+    <arg name="ip" default="192.168.131.150"/> 
+
+    <node
+        name="driver_node"
+        pkg="flir_smart_camera_driver"
+        executable="driver_node"
+        output="screen"
+        ns="flir_camera">
+        <param name="is_http" value="true" />
+        <param name="camera_ip" value="$(arg ip)" />
+        <param name="is_rgb_required" value="true" />   <!-- In case rgb image is desired or not -->
+        <param name="verbose" value="$(arg verbose)" /> <!-- If Set prints target URL, and json data for REST api requests -->
+        <ros_arguments>
+            <arg name="visual_format" value="['avc', 'mpeg4']" />
+            <arg name="ir_format" value="['avc']" />
+        </ros_arguments>
+        <param name="overlay" value="true" />  <!-- Either to have an overlay or not this can be useful in case when different objects(lines, masks etc.) are set -->
+        <param name="camera_api_key" value="23b1beaac7463772e7845f7e381bd4b9bf00f2f48302a047" />
+        <param name="api_file_path" value="$(find flir_smart_camera_driver)/config/swagger.json" />
+    </node>
+
+    <group if="$(arg viz)">
+        <node
+            name="rviz"
+            pkg="rviz2"
+            executable="rviz2"
+            args="-d $(find flir_smart_camera_driver)/rviz/rviz.rviz" />
+    </group>
 </launch>

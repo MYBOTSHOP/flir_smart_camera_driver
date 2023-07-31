@@ -1,0 +1,49 @@
+#!/usr/bin/env python3
+import rclpy
+from threading import Thread
+from time import sleep, time
+from flir_smart_camera_driver import RestInterfaceHandle, RTSPCLIENT
+
+class Driver(RestInterfaceHandle, RTSPCLIENT):
+    """ ROS Driver for FLIR Smart Cameras """
+
+    def __init__(self):
+        RestInterfaceHandle.__init__(self)
+        RTSPCLIENT.__init__(self)
+        self.threads = list()
+
+    def create_thread(self, func, *args, is_daemon=True):
+        """Create a thread with given arguments
+
+        Args: 
+            func: Callable object for thread function
+            args: is the argument tuple for the target invocation
+            is_daemon: If it's a daemon thread 
+        Returns: None
+        Raises: None
+        """
+        thread = Thread(target=func, args=args)
+        thread.daemon = True if is_daemon else False
+        thread.start()
+        self.threads.append(thread)
+        sleep(1)
+
+    def cleanup(self):
+        self.rtsp_cleanup()
+        self.interface_cleanup()
+
+    def run(self):
+        """ main function to run the driver """
+        self.init_rest_interface_handle()
+        self.init_rtsp_handle()
+        self.create_thread(self.check_alarm_status)
+        [self.create_thread(self.image_stream, stream) for stream in self.streams]
+        while rclpy.ok():
+            rclpy.spin_once()
+
+if __name__ == "__main__":
+    rclpy.init(args=None)
+    driver = Driver()
+    driver.run()
+    driver.cleanup()
+    rclpy.shutdown()

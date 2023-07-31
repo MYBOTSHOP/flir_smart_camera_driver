@@ -1,16 +1,27 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.5)
 project(flir_smart_camera_driver)
-find_package(catkin REQUIRED COMPONENTS
-  rospy
+
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(flir_msgs REQUIRED)
+
+include_directories(
+  ${PROJECT_NAME}
+  ${rclcpp_INCLUDE_DIRS}
+  ${std_msgs_INCLUDE_DIRS}
+  ${flir_msgs_INCLUDE_DIRS}
+)
+
+add_executable(driver_node nodes/driver_node)
+ament_target_dependencies(driver_node
+  rclcpp
   std_msgs
   flir_msgs
 )
-catkin_python_setup()
-catkin_package()
-include_directories(
-  ${catkin_INCLUDE_DIRS}
+
+install(TARGETS driver_node
+  DESTINATION lib/${PROJECT_NAME}
 )
-install(PROGRAMS
-   nodes/driver_node
-   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+
+ament_package()
