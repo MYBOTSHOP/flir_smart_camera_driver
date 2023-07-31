@@ -7,8 +7,8 @@ string res0 # example: max, Enum: Array [ 4 ]
 string type1 # example: reftemp, Enum: Array [ 6 ]
 string id1 # example: 1
 string res1 # example: value, Enum: Array [ 4 ]
-float32 valueT # minimum: 0, readOnly: true
-string valueValid # readOnly: true, Enum: [ =, <, >, U ]
+float32 value_t # minimum: 0, readOnly: true
+string value_valid # readOnly: true, Enum: [ =, <, >, U ]
 ---
 int16 status_code
 string message

@@ -1,6 +1,6 @@
-string screeningMode
+string screening_mode
 string palette
-string imageMode
+string image_mode
 ---
 int16 status_code
 string message

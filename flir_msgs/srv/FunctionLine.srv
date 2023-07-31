@@ -1,36 +1,36 @@
 float32 distance
-bool distanceActive
+bool distance_active
 float32 emissivity # minimum: 0 # maximum: 1, example: 0.997
-bool emissivityActive
+bool emissivity_active
 float32 ambient # minimum: 0, example: 293.15
-bool ambientActive
-bool showOnTrigger
+bool ambient_active
+bool show_on_trigger
 bool active
 string label
 int16 x1 # minimum: 0, example: 10
 int16 y1 # minimum: 0, example: 10
 int16 x2 # minimum: 0, example: 10
 int16 y2 # minimum: 0, example: 10
-int16 minX # minimum: 0, example: 10
-int16 minY # minimum: 0, example: 10
-int16 maxX # minimum: 0, example: 10
-int16 maxY # minimum: 0, example: 10
+int16 min_x # minimum: 0, example: 10
+int16 min_y # minimum: 0, example: 10
+int16 max_x # minimum: 0, example: 10
+int16 max_y # minimum: 0, example: 10
 string id # example: 1, readOnly: true
-float32 avgT # minimum: 0, readOnly: true
-string avgValid # readOnly: true, Enum: [ =, <, >, U ]
-float32 minT # minimum: 0, readOnly: true
-string minValid # readOnly: true, Enum: [ =, <, >, U ]
-float32 maxT # minimum: 0, readOnly: true
-string maxValid # readOnly: true, Enum: [ =, <, >, U ]
-string tempValid # readOnly: true, Enum: [ =, <, >, U ] 
-float32[] tempArray # readOnly: true
-bool calcMaxTemp
-bool calcMaxPos
-bool calcMinTemp
-bool calcMinPos
-bool calcAvg
-bool calcCursor 
-bool calcTempArray
+float32 avg_t # minimum: 0, readOnly: true
+string avg_valid # readOnly: true, Enum: [ =, <, >, U ]
+float32 min_t # minimum: 0, readOnly: true
+string min_valid # readOnly: true, Enum: [ =, <, >, U ]
+float32 max_t # minimum: 0, readOnly: true
+string max_valid # readOnly: true, Enum: [ =, <, >, U ]
+string temp_valid # readOnly: true, Enum: [ =, <, >, U ] 
+float32[] temp_array # readOnly: true
+bool calc_max_temp
+bool calc_max_pos
+bool calc_min_temp
+bool calc_min_pos
+bool calc_avg
+bool calc_cursor 
+bool calc_temp_array
 ---
 int16 status_code
 string message

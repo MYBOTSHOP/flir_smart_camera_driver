@@ -1,17 +1,17 @@
 float32 distance
-bool distanceActive
+bool distance_active
 float32 emissivity # minimum: 0, maximum: 1, example: 0.997
-bool emissivityActive
+bool emissivity_active
 float32 ambient # minimum: 0, example: 293.15
-bool ambientActive
-bool showOnTrigger
+bool ambient_active
+bool show_on_trigger
 bool active
 string label
 int16 x # minimum: 0, example: 10
 int16 y # minimum: 0, example: 10
 string id # example: 1, readOnly: true
-float32 valueT # minimum: 0, readOnly: true
-string valueValid # readOnly: true, Enum: [ =, <, >, U ]
+float32 value_t # minimum: 0, readOnly: true
+string value_valid # readOnly: true, Enum: [ =, <, >, U ]
 ---
 int16 status_code
 string message

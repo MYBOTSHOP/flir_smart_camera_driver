@@ -1,9 +1,9 @@
 bool active
 string label
 string id # example: 1, readOnly: true
-float32 refT # minimum: 0
-float32 valueT # minimum: 0, readOnly: true
-string valueValid # readOnly: true Enum: [ =, <, >, U ]
+float32 ref_t # minimum: 0
+float32 value_t # minimum: 0, readOnly: true
+string value_valid # readOnly: true Enum: [ =, <, >, U ]
 ---
 int16 status_code
 string message

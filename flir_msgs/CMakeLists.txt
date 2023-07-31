@@ -1,63 +1,59 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.5)
 project(flir_msgs)
 
-find_package(catkin REQUIRED COMPONENTS
-  std_msgs
-  message_generation
+find_package(ament_cmake REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+find_package(std_msgs REQUIRED)
+
+## Generate messages and services in their respective folders
+set(msg_files
+  "msg/TriggeredAlarms.msg"
+  "msg/ActiveAlarms.msg"
+  "msg/AlarmActions.msg"
+  "msg/Lens.msg"
+  "msg/Point.msg"
+  "msg/ScreeningOperatorAction.msg"
 )
 
-## Generate messages in the 'msg' folder
-add_message_files(
-  FILES
-  TriggeredAlarms.msg
-  ActiveAlarms.msg
-  AlarmActions.msg
-  Lens.msg
-  Point.msg
-  ScreeningOperatorAction.msg
+set(srv_files
+  "srv/FunctionDelta.srv"
+  "srv/ImageState.srv"
+  "srv/CalibrationRange.srv"
+  "srv/FunctionLine.srv"
+  "srv/RegionalTime.srv"
+  "srv/DeviceConfiguration.srv"
+  "srv/FunctionParameters.srv"
+  "srv/RegionalUnits.srv"
+  "srv/DeviceNuc.srv"
+  "srv/DevicePan.srv"
+  "srv/DeviceTilt.srv"
+  "srv/FunctionPolyline.srv"
+  "srv/ScreeningConfigurationLimits.srv"
+  "srv/DigitalOutput.srv"
+  "srv/FunctionRefTemp.srv"
+  "srv/ScreeningConfiguration.srv"
+  "srv/FunctionBox.srv"
+  "srv/FunctionSpot.srv"
+  "srv/ScreeningOperatorState.srv"
+  "srv/DeviceDetails.srv"
+  "srv/MeasureFunctionAlarm.srv"
+  "srv/RegionalLimits.srv"
+  "srv/DeviceFocusAutoUpdate.srv"
+  "srv/DeviceFocusUpdate.srv"
+  "srv/ScreeningOperatorConfiguration.srv"
+  "srv/TempSensAlarm.srv"
+  "srv/DiginAlarm.srv"
+  "srv/RetrieveData.srv"
+  "srv/IdRetrieveData.srv"
 )
 
-## Generate services in the 'srv' folder
-add_service_files(
-  FILES
-  FunctionDelta.srv
-  ImageState.srv
-  CalibrationRange.srv
-  FunctionLine.srv
-  RegionalTime.srv
-  DeviceConfiguration.srv
-  FunctionParameters.srv
-  RegionalUnits.srv
-  DeviceNuc.srv
-  DevicePan.srv
-  DeviceTilt.srv
-  FunctionPolyline.srv
-  ScreeningConfigurationLimits.srv
-  DigitalOutput.srv
-  FunctionRefTemp.srv
-  ScreeningConfiguration.srv
-  FunctionBox.srv
-  FunctionSpot.srv
-  ScreeningOperatorState.srv
-  DeviceDetails.srv
-  MeasureFunctionAlarm.srv
-  RegionalLimits.srv
-  DeviceFocusAutoUpdate.srv
-  DeviceFocusUpdate.srv
-  ScreeningOperatorConfiguration.srv
-  TempSensAlarm.srv
-  DiginAlarm.srv
-  RetrieveData.srv
-  IdRetrieveData.srv
-  )
-
-## Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  std_msgs  # Or other packages containing msgs
+rosidl_generate_interfaces(${PROJECT_NAME}
+  ${msg_files}
+  ${srv_files}
+  DEPENDENCIES std_msgs
 )
 
-## DEPENDS: system dependencies of this project that dependent projects also need
-catkin_package(
-  CATKIN_DEPENDS message_runtime std_msgs
-)
+ament_export_dependencies(std_msgs)
+ament_export_dependencies(rosidl_default_runtime)
+
+ament_package()
